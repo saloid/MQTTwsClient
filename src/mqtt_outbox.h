@@ -1,6 +1,7 @@
 #ifndef _OUTBOX_H_
 #define _OUTBOX_H_
-#include "c_types.h"
+#include <Arduino.h>
+//#include "c_types.h"
 #ifdef  __cplusplus
 extern "C" {
 #endif

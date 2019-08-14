@@ -25,13 +25,14 @@ License (MIT license):
 #define ESP8266MQTTClient_H_
 
 #include <memory>
-#include <Arduino.h>
-#include <WiFiClient.h>
-#include <WiFiClientSecure.h>
+
+//#include <WiFiClient.h>
+//#include <WiFiClientSecure.h>
 #include <functional>
 #include "uri_parser.h"
 #include "mqtt_msg.h"
 #include "mqtt_outbox.h"
+#include <Arduino.h>
 
 // #ifdef DEBUG_ESP_MQTT_CLIENT
 #ifdef DEBUG_ESP_PORT
@@ -98,7 +99,7 @@ public:
 	typedef std::function<void(int)> THandlerFunction_Error;
 	typedef std::function<void(int)> THandlerFunction_PubSub;
 	typedef std::function<void(String, String, bool)> THandlerFunction_Data;
-	typedef std::function<bool(WiFiClientSecure *client, String host)> THandlerFunction_Secure;
+	//typedef std::function<bool(WiFiClientSecure *client, String host)> THandlerFunction_Secure;
 
 	MQTTClient();
 	~MQTTClient();
@@ -107,7 +108,7 @@ public:
 	void onSubscribe(THandlerFunction_PubSub fn);
 	void onPublish(THandlerFunction_PubSub fn);
 	void onData(THandlerFunction_Data fn);
-	void onSecure(THandlerFunction_Secure fn);
+	//void onSecure(THandlerFunction_Secure fn);
 
 	bool begin(String uri);
 	bool begin(String uri, int keepalive, bool clean_session); 
@@ -121,7 +122,7 @@ public:
 	int publish(String topic, String data);
 	int publish(String topic, String data, int qos, int retain);
 protected:
-	std::unique_ptr<WiFiClient> _tcp;
+	Client* _tcp;
 	MQTTTransportTraitsPtr _transportTraits;
 	bool connected();
 	int processRead();
@@ -157,6 +158,6 @@ protected:
 	THandlerFunction_PubSub _subscribe_cb;
 	THandlerFunction_PubSub _publish_cb;
 	THandlerFunction_Data _data_cb;
-	THandlerFunction_Secure _secure_cb;
+	//THandlerFunction_Secure _secure_cb;
 };
 #endif /* ESP8266MQTTClient_H_ */

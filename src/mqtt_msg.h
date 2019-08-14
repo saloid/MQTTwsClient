@@ -1,6 +1,7 @@
 #ifndef MQTT_MSG_H
 #define MQTT_MSG_H
-#include "c_types.h"
+#include <Arduino.h>
+//#include "stdlib.h"
 #ifdef  __cplusplus
 extern "C" {
 #endif

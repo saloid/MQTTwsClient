@@ -21,25 +21,19 @@ License (MIT license):
   THE SOFTWARE.
 */
 #include <Arduino.h>
-#include <ESP8266WiFi.h>
-#include <WiFiClientSecure.h>
-#include <StreamString.h>
+//#include <ESP8266WiFi.h>
+//#include <WiFiClientSecure.h>
+//#include <StreamString.h>
 #include <base64.h>
 #include <Hash.h>
 #include "ESP8266MQTTClient.h"
 #include "MQTTTransport.h"
 
-MQTTTransportTraits::MQTTTransportTraits(): _isSecure(false)
-{
-}
+//MQTTTransportTraits::MQTTTransportTraits(): _isSecure(false)
+//{
+//}
 MQTTTransportTraits::MQTTTransportTraits(bool secure): _isSecure(secure)
 {
-}
-std::unique_ptr<WiFiClient> MQTTTransportTraits::create()
-{
-	if(_isSecure)
-		return std::unique_ptr<WiFiClient>(new WiFiClientSecure());
-	return std::unique_ptr<WiFiClient>(new WiFiClient());
 }
 bool MQTTTransportTraits::connect(WiFiClient* client, const char* host, int port, const char *path)
 {

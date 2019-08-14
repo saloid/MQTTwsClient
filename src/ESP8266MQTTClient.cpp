@@ -21,9 +21,9 @@ License (MIT license):
   THE SOFTWARE.
 */
 #include <Arduino.h>
-#include <ESP8266WiFi.h>
-#include <WiFiClientSecure.h>
-#include <StreamString.h>
+//#include <ESP8266WiFi.h>
+//#include <WiFiClientSecure.h>
+//#include <StreamString.h>
 #include <base64.h>
 #include "ESP8266MQTTClient.h"
 #include "MQTTTransport.h"
@@ -37,12 +37,26 @@ MQTTClient::MQTTClient():
     _subscribe_cb(NULL),
     _publish_cb(NULL),
     _data_cb(NULL),
-    _secure_cb(NULL),
+    //_secure_cb(NULL),
     _initialized(false),
     _reconnect_tick(0)
 {
     _outbox = ob_create();
 
+}
+
+MQTTClient::MQTTClient(Client& client):
+    _connected_cb(NULL),
+    _disconnected_cb(NULL),
+    _subscribe_cb(NULL),
+    _publish_cb(NULL),
+    _data_cb(NULL),
+    //_secure_cb(NULL),
+    _initialized(false),
+    _reconnect_tick(0)
+{
+    _outbox = ob_create();
+    _tcp = client;
 }
 
 /**
@@ -80,12 +94,6 @@ bool MQTTClient::begin(String uri, LwtOptions lwt, int keepalive, bool clean_ses
     _port = DEFAULT_MQTT_PORT;
     _path = "/";
 
-    if(puri->fragment) {
-        _client_id = String(puri->fragment);
-    } else {
-        _client_id = String("ESP_") + ESP.getChipId();
-    }
-    LOG("MQTT ClientId: %s\r\n", _client_id.c_str());
     if(puri->port) {
         _port = atoi(puri->port);
     }
@@ -157,7 +165,7 @@ bool MQTTClient::begin(String uri, LwtOptions lwt, int keepalive, bool clean_ses
         LOG("ERROR: currently only support mqtt over tcp\r\n");
         return false;
     }
-    _tcp = _transportTraits->create();
+    _tcp = ;
     _initialized = true;
     return true;
 }
